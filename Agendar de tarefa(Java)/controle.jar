@@ -1,0 +1,32 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.Tarefa;
+import com.example.demo.repository.TarefaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/tarefas")
+public class TarefaController {
+    @Autowired
+    private TarefaRepository tarefaRepository;
+
+    @GetMapping
+    public List<Tarefa> listarTarefas() {
+        return tarefaRepository.findAll();
+    }
+
+    @PostMapping
+    public String adicionarTarefa(@RequestBody Tarefa tarefa) {
+        tarefaRepository.save(tarefa);
+        return "Tarefa adicionada com sucesso";
+    }
+
+    @DeleteMapping("/{id}")
+    public String excluirTarefa(@PathVariable Long id) {
+        tarefaRepository.deleteById(id);
+        return "Tarefa excluída com sucesso";
+    }
+}
